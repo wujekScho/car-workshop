@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Resource name="jdbc/crm"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="root"
+              password="root"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/car_workshop"
+              connectionProperties="useSSL=false;useUnicode=yes;characterEncoding=utf8;serverTimezone=UTC;allowPublicKeyRetrieval=true;zeroDateTimeBehavior=convertToNull"
+              maxTotal="100"
+              maxIdle="30"
+              maxWaitMillis="10000"/>
+</Context>
