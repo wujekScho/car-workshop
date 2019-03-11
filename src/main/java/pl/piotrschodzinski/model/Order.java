@@ -33,15 +33,7 @@ public class Order {
         this.partsCost = partsCost;
         this.ratePerHour = ratePerHour;
         this.workHours = workHours;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    } //todo tu skończyłem, dorobić tablekę w MySQL i wiziąść się za DAO
 
     public LocalDate getRecived() {
         return recived;
