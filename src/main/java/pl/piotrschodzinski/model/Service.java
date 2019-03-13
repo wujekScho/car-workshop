@@ -2,7 +2,7 @@ package pl.piotrschodzinski.model;
 
 import java.time.LocalDate;
 
-public class Order {
+public class Service {
     private int id;
     private LocalDate recived;
     private LocalDate plannedRepairDate;
@@ -10,17 +10,17 @@ public class Order {
     private int workerId;
     private String problemDescription;
     private String repairDescription;
-    private String status;
+    private ServiceStatus status;
     private int vehicleId;
     private double repairCost;
     private double partsCost;
     private double ratePerHour;
     private int workHours;
 
-    public Order() {
+    public Service() {
     }
 
-    public Order(LocalDate recived, LocalDate plannedRepairDate, LocalDate repairDate, int workerId, String problemDescription, String repairDescription, String status, int vehicleId, double repairCost, double partsCost, double ratePerHour, int workHours) {
+    public Service(LocalDate recived, LocalDate plannedRepairDate, LocalDate repairDate, int workerId, String problemDescription, String repairDescription, ServiceStatus status, int vehicleId, double repairCost, double partsCost, double ratePerHour, int workHours) {
         this.recived = recived;
         this.plannedRepairDate = plannedRepairDate;
         this.repairDate = repairDate;
@@ -33,7 +33,7 @@ public class Order {
         this.partsCost = partsCost;
         this.ratePerHour = ratePerHour;
         this.workHours = workHours;
-    } //todo tu skończyłem, dorobić tablekę w MySQL i wiziąść się za DAO
+    }
 
     public LocalDate getRecived() {
         return recived;
@@ -83,11 +83,11 @@ public class Order {
         this.repairDescription = repairDescription;
     }
 
-    public String getStatus() {
+    public ServiceStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ServiceStatus status) {
         this.status = status;
     }
 
