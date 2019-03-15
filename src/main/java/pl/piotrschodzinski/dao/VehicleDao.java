@@ -6,8 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class VehicleDao {
-    private final static String CREATE_VEHICLE = "INSERT INTO vehicle (brand, model, manufactureYear, registrationNumber, serviceDate, customerId) VALUES (?, ?, ?, ?, ?, ?)";
-    private final static String UPDATE_VEHICLE = "UPDATE vehicle SET brand=?, model=?, manufactureYear=?, registrationNumber=?, serviceDate=?, customerId=? WHERE id=?";
+    private final static String CREATE_VEHICLE = "INSERT INTO vehicle (brand, model, manufactureYear, " +
+            "registrationNumber, serviceDate, customerId) VALUES (?, ?, ?, ?, ?, ?)";
+    private final static String UPDATE_VEHICLE = "UPDATE vehicle SET brand=?, model=?, manufactureYear=?, " +
+            "registrationNumber=?, serviceDate=?, customerId=? WHERE id=?";
     private final static String DELETE_VEHICLE = "DELETE  FROM vehicle WHERE id=?";
     private final static String GET_VEHICLE_BY_ID = "SELECT * FROM vehicle WHERE id=?";
     private final static String GET_ALL_VEHICLES = "SELECT * FROM vehicle ORDER BY id ASC";

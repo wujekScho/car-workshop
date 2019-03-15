@@ -6,8 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class WorkerDao {
-    private final static String CREATE_WORKER = "INSERT INTO worker (name, surname, address, phoneNumber, note, ratePerHour) VALUES (?, ?, ?, ?, ?, ?)";
-    private final static String UPDATE_WORKER = "UPDATE worker SET name=?, surname=?, address=?, phoneNumber=?, note=?, ratePerHour=? WHERE id=?";
+    private final static String CREATE_WORKER = "INSERT INTO worker (name, surname, address, phoneNumber, note, ratePerHour) " +
+            "VALUES (?, ?, ?, ?, ?, ?)";
+    private final static String UPDATE_WORKER = "UPDATE worker SET name=?, surname=?, address=?, phoneNumber=?, note=?, " +
+            "ratePerHour=? WHERE id=?";
     private final static String DELETE_WORKER = "DELETE  FROM worker WHERE id=?";
     private final static String GET_WORKER_BY_ID = "SELECT * FROM worker WHERE id=?";
     private final static String GET_ALL_WORKERS = "SELECT * FROM worker ORDER BY id ASC";

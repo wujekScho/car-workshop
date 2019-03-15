@@ -20,8 +20,8 @@ public class Service {
     public Service() {
     }
 
-    public Service(LocalDate recived, LocalDate plannedRepairDate, LocalDate repairDate, int workerId, String problemDescription, String repairDescription, ServiceStatus status, int vehicleId, double repairCost, double partsCost, double ratePerHour, int workHours) {
-        this.recived = recived;
+    public Service(LocalDate plannedRepairDate, LocalDate repairDate, int workerId, String problemDescription, String repairDescription, ServiceStatus status, int vehicleId, double repairCost, double partsCost, double ratePerHour, int workHours) {
+        this.recived = LocalDate.now();
         this.plannedRepairDate = plannedRepairDate;
         this.repairDate = repairDate;
         this.workerId = workerId;
@@ -33,6 +33,14 @@ public class Service {
         this.partsCost = partsCost;
         this.ratePerHour = ratePerHour;
         this.workHours = workHours;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LocalDate getRecived() {
