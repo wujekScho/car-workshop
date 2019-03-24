@@ -1,12 +1,14 @@
 package pl.piotrschodzinski.dao;
 
+import pl.piotrschodzinski.model.CurrentService;
 import pl.piotrschodzinski.model.Service;
 import pl.piotrschodzinski.model.ServiceStatus;
+import pl.piotrschodzinski.util.DBUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ServiceDao {
+public class ServiceDao implements IDao<Service> {
     private final static String CREATE_SERVICE = "INSERT INTO service (recived, plannedRepairDate, repairDate, workerId, " +
             "problemDescription, repairDescription, status, vehicleId, repairCost, partsCost, ratePerHour, workHours) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -15,25 +17,56 @@ public class ServiceDao {
             "ratePerHour=?, workHours=? WHERE id=?";
     private final static String DELETE_SERVICE = "DELETE  FROM service WHERE id=?";
     private final static String GET_SERVICE_BY_ID = "SELECT * FROM service WHERE id=?";
-    private final static String GET_ALL_SERVICES = "SELECT * FROM service ORDER BY id ASC";
+    private final static String GET_ALL_SERVICES = "SELECT * FROM service ORDER BY id ASC ORDER BY service.id";
+    private final static String GET_CURRENT_SERVICES = "SELECT * FROM service JOIN worker ON service.workerId=worker.id " +
+            "JOIN vehicle ON service.vehicleId = vehicle.id WHERE NOT status='cancelled' AND NOT status='completed' ORDER BY service.id LIMIT ?";
 
-    public static Service createService(Connection connection, Service service) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(CREATE_SERVICE, Statement.RETURN_GENERATED_KEYS);
-        setStatementParameters(statement, service);
-        statement.executeUpdate();
-        ResultSet resultSet = statement.getGeneratedKeys();
-        if (resultSet.next()) {
-            service.setId(resultSet.getInt(1));
-            return service;
+    private static ServiceDao instance;
+
+    public static ServiceDao getInstance() {
+        if (instance == null) {
+            instance = new ServiceDao();
         }
-        return null;
+        return instance;
     }
 
-    public static void updateService(Connection connection, Service service, int id) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(UPDATE_SERVICE);
-        setStatementParameters(statement, service);
-        statement.setInt(13, id);
-        statement.executeUpdate();
+    private static Service loadSingleService(ResultSet resultSet) throws SQLException {
+        Service service = new Service();
+        service.setId(resultSet.getInt("id"));
+        if (resultSet.getDate("recived") == null) {
+            service.setRecived(null);
+        } else {
+            service.setRecived(resultSet.getDate("recived").toLocalDate());
+        }
+        if (resultSet.getDate("plannedRepairDate") == null) {
+            service.setPlannedRepairDate(null);
+        } else {
+            service.setPlannedRepairDate(resultSet.getDate("plannedRepairDate").toLocalDate());
+        }
+        if (resultSet.getDate("repairDate") == null) {
+            service.setRepairDate(null);
+        } else {
+            service.setRepairDate(resultSet.getDate("repairDate").toLocalDate());
+        }
+        service.setWorkerId(resultSet.getInt("workerId"));
+        service.setProblemDescription(resultSet.getString("problemDescription"));
+        service.setRepairDescription(resultSet.getString("repairDescription"));
+        service.setStatus(ServiceStatus.valueOf(resultSet.getString("status")));
+        service.setVehicleId(resultSet.getInt("vehicleId"));
+        service.setRepairCost(resultSet.getDouble("repairCost"));
+        service.setPartsCost(resultSet.getDouble("partsCost"));
+        service.setRatePerHour(resultSet.getDouble("ratePerHour"));
+        service.setWorkHours(resultSet.getInt("workHours"));
+        return service;
+    }
+
+    private static CurrentService loadSingleCurrentService(Service service, ResultSet resultSet) throws SQLException {
+        CurrentService currentService = new CurrentService(service);
+        currentService.setWorkerName(resultSet.getString("name"));
+        currentService.setWorkerSurname(resultSet.getString("surname"));
+        currentService.setVehicleBrand(resultSet.getString("brand"));
+        currentService.setVehicleModel(resultSet.getString("model"));
+        return currentService;
     }
 
     private static void setStatementParameters(PreparedStatement statement, Service service) throws SQLException {
@@ -51,41 +84,91 @@ public class ServiceDao {
         statement.setInt(12, service.getWorkHours());
     }
 
-    public static Service getServiceById(Connection connection, int id) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(GET_SERVICE_BY_ID);
-        statement.setInt(1, id);
-        ResultSet resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            return loadSingleService(resultSet);
+    @Override
+    public Service create(Service object) {
+        try (Connection connection = DBUtil.getConn()) {
+            PreparedStatement statement = connection.prepareStatement(CREATE_SERVICE, Statement.RETURN_GENERATED_KEYS);
+            setStatementParameters(statement, object);
+            statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                object.setId(resultSet.getInt(1));
+                return object;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    public static ArrayList<Service> getAllServices(Connection connection) throws SQLException {
-        ArrayList<Service> services = new ArrayList<>();
-        PreparedStatement statement = connection.prepareStatement(GET_ALL_SERVICES);
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            services.add(loadSingleService(resultSet));
+    @Override
+    public void update(Service object, int id) {
+        try (Connection connection = DBUtil.getConn()) {
+            PreparedStatement statement = connection.prepareStatement(UPDATE_SERVICE);
+            setStatementParameters(statement, object);
+            statement.setInt(13, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return services;
     }
 
-    private static Service loadSingleService(ResultSet resultSet) throws SQLException {
-        Service service = new Service();
-        service.setId(resultSet.getInt("id"));
-        service.setRecived(resultSet.getDate("recived").toLocalDate());
-        service.setPlannedRepairDate(resultSet.getDate("plannedRepairDate").toLocalDate());
-        service.setRepairDate(resultSet.getDate("repairDate").toLocalDate());
-        service.setWorkerId(resultSet.getInt("workerId"));
-        service.setProblemDescription(resultSet.getString("problemDescription"));
-        service.setRepairDescription(resultSet.getString("repairDescription"));
-        service.setStatus(ServiceStatus.valueOf(resultSet.getString("status")));
-        service.setVehicleId(resultSet.getInt("vehicleId"));
-        service.setRepairCost(resultSet.getDouble("repairCost"));
-        service.setPartsCost(resultSet.getDouble("partsCost"));
-        service.setRatePerHour(resultSet.getDouble("ratePerHour"));
-        service.setWorkHours(resultSet.getInt("workHour"));
-        return service;
+    @Override
+    public void delete(int id) {
+        try (Connection connection = DBUtil.getConn()) {
+            PreparedStatement statement = connection.prepareStatement(DELETE_SERVICE);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Service readById(int id) {
+        try (Connection connection = DBUtil.getConn()) {
+            PreparedStatement statement = connection.prepareStatement(GET_SERVICE_BY_ID);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return loadSingleService(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Service> readAll() {
+        try (Connection connection = DBUtil.getConn()) {
+            ArrayList<Service> services = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(GET_ALL_SERVICES);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                services.add(loadSingleService(resultSet));
+            }
+            return services;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<CurrentService> readCurrent(int limit) {
+        try (Connection connection = DBUtil.getConn()) {
+            ArrayList<CurrentService> services = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(GET_CURRENT_SERVICES);
+            statement.setInt(1, limit);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                CurrentService currentService = loadSingleCurrentService(loadSingleService(resultSet), resultSet);
+                services.add(currentService);
+            }
+            return services;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

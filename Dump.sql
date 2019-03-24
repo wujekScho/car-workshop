@@ -58,7 +58,7 @@ CREATE TABLE `service` (
   `workerId` int(11) DEFAULT NULL,
   `problemDescription` varchar(255) DEFAULT NULL,
   `repairDescription` varchar(255) DEFAULT NULL,
-  `status` enum('accepted','repairCostApproved','underRepair','readyToPickup','cancelled') NOT NULL,
+  `status` enum('accepted','repairCostApproved','underRepair','readyToPickup','cancelled','completed') NOT NULL,
   `vehicleId` int(11) DEFAULT '0',
   `repairCost` decimal(8,2) DEFAULT '0.00',
   `partsCost` decimal(8,2) DEFAULT '0.00',

@@ -3,7 +3,7 @@ package pl.piotrschodzinski.model;
 import java.time.LocalDate;
 
 public class Service {
-    private int id;
+    protected int id;
     private LocalDate recived;
     private LocalDate plannedRepairDate;
     private LocalDate repairDate;
@@ -137,5 +137,24 @@ public class Service {
 
     public void setWorkHours(int workHours) {
         this.workHours = workHours;
+    }
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "id=" + id +
+                ", recived=" + recived +
+                ", plannedRepairDate=" + plannedRepairDate +
+                ", repairDate=" + repairDate +
+                ", workerId=" + workerId +
+                ", problemDescription='" + problemDescription + '\'' +
+                ", repairDescription='" + repairDescription + '\'' +
+                ", status=" + status +
+                ", vehicleId=" + vehicleId +
+                ", repairCost=" + repairCost +
+                ", partsCost=" + partsCost +
+                ", ratePerHour=" + ratePerHour +
+                ", workHours=" + workHours +
+                '}';
     }
 }
