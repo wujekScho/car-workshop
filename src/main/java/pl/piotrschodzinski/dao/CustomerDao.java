@@ -22,6 +22,29 @@ public class CustomerDao implements IDao<Customer> {
         return instance;
     }
 
+    private static void setStatementParameters(PreparedStatement statement, Customer customer) throws SQLException {
+        statement.setString(1, customer.getName());
+        statement.setString(2, customer.getSurname());
+        if (customer.getBirthDate() == null) {
+            statement.setDate(3, null);
+        } else {
+            statement.setDate(3, Date.valueOf(customer.getBirthDate())); //todo ogarnąć ze strefą czasową
+        }
+    }
+
+    private static Customer loadSingleCustomer(ResultSet resultSet) throws SQLException {
+        Customer customer = new Customer();
+        customer.setId(resultSet.getInt("id"));
+        customer.setName(resultSet.getString("name"));
+        customer.setSurname(resultSet.getString("surname"));
+        if (resultSet.getDate("birthDate") == null) {
+            customer.setBirthDate(null);
+        } else {
+            customer.setBirthDate(resultSet.getDate("birthDate").toLocalDate());
+        }
+        return customer;
+    }
+
     @Override
     public Customer create(Customer object) {
         try (Connection connection = DBUtil.getConn()) {
@@ -49,12 +72,6 @@ public class CustomerDao implements IDao<Customer> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private static void setStatementParameters(PreparedStatement statement, Customer customer) throws SQLException {
-        statement.setString(1, customer.getName());
-        statement.setString(2, customer.getSurname());
-        statement.setDate(3, Date.valueOf(customer.getBirthDate()));
     }
 
     @Override
@@ -97,19 +114,6 @@ public class CustomerDao implements IDao<Customer> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private static Customer loadSingleCustomer(ResultSet resultSet) throws SQLException {
-        Customer customer = new Customer();
-        customer.setId(resultSet.getInt("id"));
-        customer.setName(resultSet.getString("name"));
-        customer.setSurname(resultSet.getString("surname"));
-        if (resultSet.getDate("birthDate") == null) {
-            customer.setBirthDate(null);
-        } else {
-            customer.setBirthDate(resultSet.getDate("birthDate").toLocalDate());
-        }
-        return customer;
     }
 }
 

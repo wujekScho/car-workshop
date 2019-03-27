@@ -33,7 +33,7 @@
             <td>${worker.phoneNumber}</td>
             <td>${worker.note}</td>
             <td>${worker.ratePerHour} zł</td>
-            <td><a href="DeleteWorker?id=${worker.id}">Usuń</a></td>
+            <td><a href="DeleteWorker?id=${worker.id}">Usuń</a> <a href="EditWorker?id=${worker.id}">Edytuj</a></td>
         </tr>
     </c:forEach>
 </table>

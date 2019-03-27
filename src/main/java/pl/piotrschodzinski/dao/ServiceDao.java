@@ -30,6 +30,60 @@ public class ServiceDao implements IDao<Service> {
         return instance;
     }
 
+    private static Service loadSingleService(ResultSet resultSet) throws SQLException {
+        Service service = new Service();
+        service.setId(resultSet.getInt("id"));
+        if (resultSet.getDate("recived") == null) {
+            service.setRecived(null);
+        } else {
+            service.setRecived(resultSet.getDate("recived").toLocalDate());
+        }
+        if (resultSet.getDate("plannedRepairDate") == null) {
+            service.setPlannedRepairDate(null);
+        } else {
+            service.setPlannedRepairDate(resultSet.getDate("plannedRepairDate").toLocalDate());
+        }
+        if (resultSet.getDate("repairDate") == null) {
+            service.setRepairDate(null);
+        } else {
+            service.setRepairDate(resultSet.getDate("repairDate").toLocalDate());
+        }
+        service.setWorkerId(resultSet.getInt("workerId"));
+        service.setProblemDescription(resultSet.getString("problemDescription"));
+        service.setRepairDescription(resultSet.getString("repairDescription"));
+        service.setStatus(ServiceStatus.valueOf(resultSet.getString("status")));
+        service.setVehicleId(resultSet.getInt("vehicleId"));
+        service.setRepairCost(resultSet.getDouble("repairCost"));
+        service.setPartsCost(resultSet.getDouble("partsCost"));
+        service.setRatePerHour(resultSet.getDouble("ratePerHour"));
+        service.setWorkHours(resultSet.getInt("workHours"));
+        return service;
+    }
+
+    private static CurrentService loadSingleCurrentService(Service service, ResultSet resultSet) throws SQLException {
+        CurrentService currentService = new CurrentService(service);
+        currentService.setWorkerName(resultSet.getString("name"));
+        currentService.setWorkerSurname(resultSet.getString("surname"));
+        currentService.setVehicleBrand(resultSet.getString("brand"));
+        currentService.setVehicleModel(resultSet.getString("model"));
+        return currentService;
+    }
+
+    private static void setStatementParameters(PreparedStatement statement, Service service) throws SQLException {
+        statement.setDate(1, Date.valueOf(service.getRecived()));
+        statement.setDate(2, Date.valueOf(service.getPlannedRepairDate()));
+        statement.setDate(3, Date.valueOf(service.getRepairDate()));
+        statement.setInt(4, service.getWorkerId());
+        statement.setString(5, service.getProblemDescription());
+        statement.setString(6, service.getRepairDescription());
+        statement.setString(7, service.getStatus().name());
+        statement.setInt(8, service.getVehicleId());
+        statement.setDouble(9, service.getRepairCost());
+        statement.setDouble(10, service.getPartsCost());
+        statement.setDouble(11, service.getRatePerHour());
+        statement.setInt(12, service.getWorkHours());
+    }
+
     @Override
     public Service create(Service object) {
         try (Connection connection = DBUtil.getConn()) {
@@ -85,36 +139,6 @@ public class ServiceDao implements IDao<Service> {
         return null;
     }
 
-    private static Service loadSingleService(ResultSet resultSet) throws SQLException {
-        Service service = new Service();
-        service.setId(resultSet.getInt("id"));
-        if (resultSet.getDate("recived") == null) {
-            service.setRecived(null);
-        } else {
-            service.setRecived(resultSet.getDate("recived").toLocalDate());
-        }
-        if (resultSet.getDate("plannedRepairDate") == null) {
-            service.setPlannedRepairDate(null);
-        } else {
-            service.setPlannedRepairDate(resultSet.getDate("plannedRepairDate").toLocalDate());
-        }
-        if (resultSet.getDate("repairDate") == null) {
-            service.setRepairDate(null);
-        } else {
-            service.setRepairDate(resultSet.getDate("repairDate").toLocalDate());
-        }
-        service.setWorkerId(resultSet.getInt("workerId"));
-        service.setProblemDescription(resultSet.getString("problemDescription"));
-        service.setRepairDescription(resultSet.getString("repairDescription"));
-        service.setStatus(ServiceStatus.valueOf(resultSet.getString("status")));
-        service.setVehicleId(resultSet.getInt("vehicleId"));
-        service.setRepairCost(resultSet.getDouble("repairCost"));
-        service.setPartsCost(resultSet.getDouble("partsCost"));
-        service.setRatePerHour(resultSet.getDouble("ratePerHour"));
-        service.setWorkHours(resultSet.getInt("workHours"));
-        return service;
-    }
-
     @Override
     public ArrayList<Service> readAll() {
         try (Connection connection = DBUtil.getConn()) {
@@ -129,30 +153,6 @@ public class ServiceDao implements IDao<Service> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private static CurrentService loadSingleCurrentService(Service service, ResultSet resultSet) throws SQLException {
-        CurrentService currentService = new CurrentService(service);
-        currentService.setWorkerName(resultSet.getString("name"));
-        currentService.setWorkerSurname(resultSet.getString("surname"));
-        currentService.setVehicleBrand(resultSet.getString("brand"));
-        currentService.setVehicleModel(resultSet.getString("model"));
-        return currentService;
-    }
-
-    private static void setStatementParameters(PreparedStatement statement, Service service) throws SQLException {
-        statement.setDate(1, Date.valueOf(service.getRecived()));
-        statement.setDate(2, Date.valueOf(service.getPlannedRepairDate()));
-        statement.setDate(3, Date.valueOf(service.getRepairDate()));
-        statement.setInt(4, service.getWorkerId());
-        statement.setString(5, service.getProblemDescription());
-        statement.setString(6, service.getRepairDescription());
-        statement.setString(7, service.getStatus().name());
-        statement.setInt(8, service.getVehicleId());
-        statement.setDouble(9, service.getRepairCost());
-        statement.setDouble(10, service.getPartsCost());
-        statement.setDouble(11, service.getRatePerHour());
-        statement.setInt(12, service.getWorkHours());
     }
 
     public CurrentService readCurrentById(int id) {

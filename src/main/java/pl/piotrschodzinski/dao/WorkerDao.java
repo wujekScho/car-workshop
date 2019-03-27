@@ -22,6 +22,27 @@ public class WorkerDao implements IDao<Worker> {
         return instance;
     }
 
+    private static void setStatementParameters(PreparedStatement statement, Worker worker) throws SQLException {
+        statement.setString(1, worker.getName());
+        statement.setString(2, worker.getSurname());
+        statement.setString(3, worker.getAddress());
+        statement.setString(4, worker.getPhoneNumber());
+        statement.setString(5, worker.getNote());
+        statement.setDouble(6, worker.getRatePerHour());
+    }
+
+    private static Worker loadSingleWorker(ResultSet resultSet) throws SQLException {
+        Worker worker = new Worker();
+        worker.setId(resultSet.getInt("id"));
+        worker.setName(resultSet.getString("name"));
+        worker.setSurname(resultSet.getString("surname"));
+        worker.setAddress(resultSet.getString("address"));
+        worker.setPhoneNumber(resultSet.getString("phoneNumber"));
+        worker.setNote(resultSet.getString("note"));
+        worker.setRatePerHour(resultSet.getDouble("ratePerHour"));
+        return worker;
+    }
+
     @Override
     public Worker create(Worker object) {
         try (Connection connection = DBUtil.getConn()) {
@@ -49,15 +70,6 @@ public class WorkerDao implements IDao<Worker> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private static void setStatementParameters(PreparedStatement statement, Worker worker) throws SQLException {
-        statement.setString(1, worker.getName());
-        statement.setString(2, worker.getSurname());
-        statement.setString(3, worker.getAddress());
-        statement.setString(4, worker.getPhoneNumber());
-        statement.setString(5, worker.getNote());
-        statement.setDouble(6, worker.getRatePerHour());
     }
 
     @Override
@@ -100,17 +112,5 @@ public class WorkerDao implements IDao<Worker> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private static Worker loadSingleWorker(ResultSet resultSet) throws SQLException {
-        Worker worker = new Worker();
-        worker.setId(resultSet.getInt("id"));
-        worker.setName(resultSet.getString("name"));
-        worker.setSurname(resultSet.getString("surname"));
-        worker.setAddress(resultSet.getString("address"));
-        worker.setPhoneNumber(resultSet.getString("phoneNumber"));
-        worker.setNote(resultSet.getString("note"));
-        worker.setRatePerHour(resultSet.getDouble("ratePerHour"));
-        return worker;
     }
 }

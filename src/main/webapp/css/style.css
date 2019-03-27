@@ -19,3 +19,11 @@ th, td {
 #phoneWarning {
     color: red;
 }
+
+label {
+    display: block;
+}
+
+input {
+    display: block;
+}

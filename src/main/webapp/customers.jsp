@@ -27,10 +27,12 @@
             <td>${customer.name}</td>
             <td>${customer.surname}</td>
             <td>${customer.birthDate}</td>
-            <td></td>
+            <td><a href="DeleteCustomer?id=${customer.id}">Usuń</a> <a href="EditCustomer?id=${customer.id}">Edytuj</a>
+            </td>
         </tr>
     </c:forEach>
 </table>
+<a href="AddCustomer">Dodaj pracownika</a>
 <jsp:include page="WEB-INF/footer.jsp"/>
 </body>
 </html>

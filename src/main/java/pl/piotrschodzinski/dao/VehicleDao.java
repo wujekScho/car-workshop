@@ -22,6 +22,27 @@ public class VehicleDao implements IDao<Vehicle> {
         return instance;
     }
 
+    private static void setStatementParameters(PreparedStatement statement, Vehicle vehicle) throws SQLException {
+        statement.setString(1, vehicle.getBrand());
+        statement.setString(2, vehicle.getModel());
+        statement.setInt(3, vehicle.getManufactureYear());
+        statement.setString(4, vehicle.getRegistrationNumber());
+        statement.setDate(5, Date.valueOf(vehicle.getServiceDate()));
+        statement.setInt(6, vehicle.getCustomerId());
+    }
+
+    private static Vehicle loadSingleVehicle(ResultSet resultSet) throws SQLException {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setId(resultSet.getInt("id"));
+        vehicle.setBrand(resultSet.getString("brand"));
+        vehicle.setModel(resultSet.getString("model"));
+        vehicle.setManufactureYear(resultSet.getInt("manufactureYear"));
+        vehicle.setRegistrationNumber(resultSet.getString("registrationNumber"));
+        vehicle.setServiceDate(resultSet.getDate("serviceDate").toLocalDate());
+        vehicle.setCustomerId(resultSet.getInt("customerId"));
+        return vehicle;
+    }
+
     @Override
     public Vehicle create(Vehicle object) {
         try (Connection connection = DBUtil.getConn()) {
@@ -49,15 +70,6 @@ public class VehicleDao implements IDao<Vehicle> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private static void setStatementParameters(PreparedStatement statement, Vehicle vehicle) throws SQLException {
-        statement.setString(1, vehicle.getBrand());
-        statement.setString(2, vehicle.getModel());
-        statement.setInt(3, vehicle.getManufactureYear());
-        statement.setString(4, vehicle.getRegistrationNumber());
-        statement.setDate(5, Date.valueOf(vehicle.getServiceDate()));
-        statement.setInt(6, vehicle.getCustomerId());
     }
 
     @Override
@@ -100,17 +112,5 @@ public class VehicleDao implements IDao<Vehicle> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private static Vehicle loadSingleVehicle(ResultSet resultSet) throws SQLException {
-        Vehicle vehicle = new Vehicle();
-        vehicle.setId(resultSet.getInt("id"));
-        vehicle.setBrand(resultSet.getString("brand"));
-        vehicle.setModel(resultSet.getString("model"));
-        vehicle.setManufactureYear(resultSet.getInt("manufactureYear"));
-        vehicle.setRegistrationNumber(resultSet.getString("registrationNumber"));
-        vehicle.setServiceDate(resultSet.getDate("serviceDate").toLocalDate());
-        vehicle.setCustomerId(resultSet.getInt("customerId"));
-        return vehicle;
     }
 }
