@@ -93,7 +93,7 @@ CREATE TABLE `vehicle` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `brand` varchar(45) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `model` varchar(45) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `manfuctureYear` int(10) unsigned NOT NULL,
+  `manufactureYear` int(10) unsigned NOT NULL,
   `registrationNumber` varchar(15) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `serviceDate` date NOT NULL,
   `customerId` int(11) NOT NULL,

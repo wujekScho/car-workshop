@@ -95,6 +95,7 @@ public class WorkerDao implements IDao<Worker> {
             while (resultSet.next()) {
                 workers.add(loadSingleWorker(resultSet));
             }
+            return workers;
         } catch (SQLException e) {
             e.printStackTrace();
         }

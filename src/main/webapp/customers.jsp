@@ -1,36 +1,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
-  User: schodziak
-  Date: 15.03.19
-  Time: 17:01
+  User: Scho
+  Date: 24.03.2019
+  Time: 17:05
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Klienci</title>
     <link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <jsp:include page="WEB-INF/header.jsp"/>
-<h2>Aktualne naprawy</h2>
+<h2>Klienci</h2>
 <table>
     <tr>
-        <th>Brand</th>
-        <th>Model</th>
-        <th>Received</th>
-        <th>Problem description</th>
-        <th>Status</th>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>Data urodzenia</th>
         <th>Akcje</th>
     </tr>
-    <c:forEach items="${services}" var="service">
+    <c:forEach items="${customers}" var="customer">
         <tr>
-            <td>${service.vehicleBrand}</td>
-            <td>${service.vehicleModel}</td>
-            <td>${service.recived}</td>
-            <td>${service.problemDescription}</td>
-            <td>${service.status}</td>
+            <td>${customer.name}</td>
+            <td>${customer.surname}</td>
+            <td>${customer.birthDate}</td>
             <td></td>
         </tr>
     </c:forEach>
@@ -38,3 +34,4 @@
 <jsp:include page="WEB-INF/footer.jsp"/>
 </body>
 </html>
+

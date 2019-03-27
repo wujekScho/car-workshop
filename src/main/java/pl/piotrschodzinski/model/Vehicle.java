@@ -6,7 +6,7 @@ public class Vehicle {
     private int id;
     private String brand;
     private String model;
-    private int manfuctureYear;
+    private int manufactureYear;
     private String registrationNumber;
     private LocalDate serviceDate;
     private int customerId;
@@ -17,7 +17,7 @@ public class Vehicle {
     public Vehicle(String brand, String model, int manfuctureYear, String registrationNumber, LocalDate serviceDate, int customerId) {
         this.brand = brand;
         this.model = model;
-        this.manfuctureYear = manfuctureYear;
+        this.manufactureYear = manfuctureYear;
         this.registrationNumber = registrationNumber;
         this.serviceDate = serviceDate;
         this.customerId = customerId;
@@ -55,12 +55,12 @@ public class Vehicle {
         this.model = model;
     }
 
-    public int getManfuctureYear() {
-        return manfuctureYear;
+    public int getManufactureYear() {
+        return manufactureYear;
     }
 
-    public void setManfuctureYear(int manfuctureYear) {
-        this.manfuctureYear = manfuctureYear;
+    public void setManufactureYear(int manufactureYear) {
+        this.manufactureYear = manufactureYear;
     }
 
     public String getRegistrationNumber() {

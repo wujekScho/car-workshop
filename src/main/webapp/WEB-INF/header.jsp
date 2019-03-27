@@ -11,7 +11,10 @@
     <link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<a href="HomePanel">Home</a>
+<a href="ShowCurrentServices">Aktualne naprawy</a>
+<a href="ShowVehicles">Pojazdy</a>
+<a href="ShowCustomers">Klienci</a>
+<a href="ShowWorkers">Pracownicy</a>
 </body>
 </html>
 

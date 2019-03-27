@@ -104,7 +104,11 @@ public class CustomerDao implements IDao<Customer> {
         customer.setId(resultSet.getInt("id"));
         customer.setName(resultSet.getString("name"));
         customer.setSurname(resultSet.getString("surname"));
-        customer.setBirthDate(resultSet.getDate("birthDate").toLocalDate());
+        if (resultSet.getDate("birthDate") == null) {
+            customer.setBirthDate(null);
+        } else {
+            customer.setBirthDate(resultSet.getDate("birthDate").toLocalDate());
+        }
         return customer;
     }
 }
