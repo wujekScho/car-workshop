@@ -1,15 +1,15 @@
-CREATE DATABASE  IF NOT EXISTS `car_workshop` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_polish_ci */;
+CREATE DATABASE  IF NOT EXISTS `car_workshop` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
 USE `car_workshop`;
--- MySQL dump 10.13  Distrib 5.7.25, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
 -- Host: localhost    Database: car_workshop
 -- ------------------------------------------------------
--- Server version	5.7.25-0ubuntu0.18.04.2
+-- Server version	8.0.15
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,14 +23,14 @@ USE `car_workshop`;
 
 DROP TABLE IF EXISTS `customer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `surname` varchar(45) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `birthDate` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,7 +49,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `service`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `service` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `recived` date NOT NULL,
@@ -68,8 +68,8 @@ CREATE TABLE `service` (
   KEY `workerId_idx` (`workerId`),
   KEY `vehicleId_idx` (`vehicleId`),
   CONSTRAINT `vehicleId` FOREIGN KEY (`vehicleId`) REFERENCES `vehicle` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `workerId` FOREIGN KEY (`workerId`) REFERENCES `worker` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT `workerId` FOREIGN KEY (`workerId`) REFERENCES `worker` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +78,7 @@ CREATE TABLE `service` (
 
 LOCK TABLES `service` WRITE;
 /*!40000 ALTER TABLE `service` DISABLE KEYS */;
-INSERT INTO `service` VALUES (1,'2019-03-10',NULL,NULL,NULL,'Uszkodzona skrzynia biegów',NULL,'accepted',1,0.00,0.00,0.00,0),(2,'2019-03-11','2019-03-30','2019-03-30',2,'Wymiana kolcków hamulcowych','Bezproblemowa wymiana','readyToPickup',2,450.00,200.00,17.50,5),(3,'2019-03-01','2019-04-05',NULL,1,'Wymiana silnika',NULL,'repairCostApproved',3,1500.00,750.00,37.50,10),(4,'2019-03-15','2019-03-17','2019-03-16',3,'Wymiana kół','Zmieniono na komplet letni','readyToPickup',4,50.00,0.00,18.00,1),(5,'2019-03-14','2019-03-18',NULL,2,'Lakierowanie karoserii',NULL,'underRepair',5,500.00,100.00,17.50,10);
+INSERT INTO `service` VALUES (1,'2019-03-10',NULL,NULL,NULL,'Uszkodzona skrzynia biegów',NULL,'accepted',1,0.00,0.00,0.00,0),(2,'2019-03-11','2019-03-30','2019-03-30',2,'Wymiana kolcków hamulcowych','Bezproblemowa wymiana','readyToPickup',2,450.00,200.00,17.50,5),(3,'2019-03-01','2019-04-05',NULL,1,'Wymiana silnika',NULL,'repairCostApproved',3,1500.00,750.00,37.50,10),(4,'2019-03-15','2019-03-17','2019-03-16',3,'Wymiana kół','Zmieniono na komplet letni','readyToPickup',4,50.00,0.00,18.00,1),(5,'2019-03-14','2019-03-18',NULL,2,'Lakierowanie karoserii',NULL,'underRepair',5,500.00,100.00,17.50,10),(6,'0000-00-00',NULL,NULL,NULL,NULL,NULL,'cancelled',1,0.00,0.00,0.00,0),(7,'0000-00-00',NULL,NULL,NULL,NULL,NULL,'completed',1,0.00,0.00,0.00,0);
 /*!40000 ALTER TABLE `service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,7 +88,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `vehicle`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `vehicle` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `brand` varchar(45) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
@@ -119,7 +119,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `worker`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `worker` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE `worker` (
   `note` varchar(255) DEFAULT NULL,
   `ratePerHour` decimal(7,2) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,4 +151,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-15 16:36:16
+-- Dump completed on 2019-03-29 20:33:14

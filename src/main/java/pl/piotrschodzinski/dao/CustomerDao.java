@@ -28,7 +28,7 @@ public class CustomerDao implements IDao<Customer> {
         if (customer.getBirthDate() == null) {
             statement.setDate(3, null);
         } else {
-            statement.setDate(3, Date.valueOf(customer.getBirthDate())); //todo ogarnąć ze strefą czasową
+            statement.setDate(3, Date.valueOf(customer.getBirthDate())); //todo ogarnąć ze strefą czasowąk
         }
     }
 
