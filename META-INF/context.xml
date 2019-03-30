@@ -4,7 +4,7 @@
               auth="Container"
               type="javax.sql.DataSource"
               username="root"
-              password="root"
+              password="coderslab"
               driverClassName="com.mysql.jdbc.Driver"
               url="jdbc:mysql://localhost:3306/car_workshop"
               connectionProperties="useSSL=false;useUnicode=yes;characterEncoding=utf8;serverTimezone=UTC;allowPublicKeyRetrieval=true;zeroDateTimeBehavior=convertToNull"
