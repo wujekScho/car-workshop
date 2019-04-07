@@ -20,6 +20,8 @@ public class ServiceDao implements IDao<Service> {
     private final static String GET_ALL_SERVICES = "SELECT * FROM service ORDER BY id ASC ORDER BY service.id";
     private final static String GET_CURRENT_SERVICES = "SELECT * FROM service LEFT JOIN worker ON service.workerId=worker.id " +
             "JOIN vehicle ON service.vehicleId = vehicle.id WHERE NOT status='cancelled' AND NOT status='completed' ORDER BY service.id LIMIT ?";
+    private final static String GET_WORKER_SERVICES = "SELECT * FROM service LEFT JOIN worker ON service.workerId=worker.id " +
+            "JOIN vehicle ON service.vehicleId = vehicle.id WHERE workerId=? AND NOT status='cancelled' AND NOT status='completed' ORDER BY service.id";
 
     private static ServiceDao instance;
 
@@ -167,6 +169,37 @@ public class ServiceDao implements IDao<Service> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public ArrayList<CurrentService> readWorkerServices(int id) {
+        ArrayList<CurrentService> workerServices = new ArrayList<>();
+        try (Connection connection = DBUtil.getConn()) {
+            PreparedStatement statement = connection.prepareStatement(GET_WORKER_SERVICES);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                workerServices.add(loadSingleCurrentService(loadSingleService(resultSet), resultSet));
+            }
+            return workerServices;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+//        try (Connection connection = DBUtil.getConn()) {
+//            ArrayList<CurrentService> services = new ArrayList<>();
+//            PreparedStatement statement = connection.prepareStatement(GET_WORKER_SERVICES);
+//            statement.setInt(1, id);
+//            ResultSet resultSet = statement.executeQuery();
+//            while (resultSet.next()) {
+//                CurrentService currentService = loadSingleCurrentService(loadSingleService(resultSet), resultSet);
+//                services.add(currentService);
+//            }
+//            return services;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
     }
 
     public ArrayList<CurrentService> readAllCurrent(int limit) {

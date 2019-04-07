@@ -1,4 +1,4 @@
-package pl.piotrschodzinski.controller;
+package pl.piotrschodzinski.controller.vehicle;
 
 import pl.piotrschodzinski.dao.VehicleDao;
 import pl.piotrschodzinski.model.Vehicle;

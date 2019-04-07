@@ -1,4 +1,4 @@
-package pl.piotrschodzinski.controller;
+package pl.piotrschodzinski.controller.customer;
 
 import pl.piotrschodzinski.dao.CustomerDao;
 import pl.piotrschodzinski.model.Customer;

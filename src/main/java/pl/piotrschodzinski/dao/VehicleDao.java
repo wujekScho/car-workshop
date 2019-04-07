@@ -5,6 +5,7 @@ import pl.piotrschodzinski.util.DBUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class VehicleDao implements IDao<Vehicle> {
     private final static String CREATE_VEHICLE = "INSERT INTO vehicle (brand, model, manufactureYear, registrationNumber, serviceDate, customerId) VALUES (?, ?, ?, ?, ?, ?)";
@@ -27,7 +28,7 @@ public class VehicleDao implements IDao<Vehicle> {
         statement.setString(2, vehicle.getModel());
         statement.setInt(3, vehicle.getManufactureYear());
         statement.setString(4, vehicle.getRegistrationNumber());
-        statement.setDate(5, Date.valueOf(vehicle.getServiceDate()));
+        statement.setDate(5, Date.valueOf(vehicle.getServiceDate()), Calendar.getInstance());
         statement.setInt(6, vehicle.getCustomerId());
     }
 

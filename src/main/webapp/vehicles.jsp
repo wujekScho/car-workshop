@@ -33,10 +33,11 @@
             <td>${vehicle.registrationNumber}</td>
             <td>${vehicle.serviceDate}</td>
             <td><a href="ShowCustomerDetails?id=${vehicle.customerId}">Właściciel</a></td>
-            <td></td>
+            <td><a href="DeleteVehicle?id=${vehicle.id}">Usuń</a> <a href="EditVehicle?id=${vehicle.id}">Edytuj</a></td>
         </tr>
     </c:forEach>
 </table>
+<a href="AddVehicle">Dodaj pojazd</a>
 <jsp:include page="WEB-INF/footer.jsp"/>
 </body>
 </html>
