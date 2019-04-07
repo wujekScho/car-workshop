@@ -5,6 +5,7 @@ import pl.piotrschodzinski.util.DBUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CustomerDao implements IDao<Customer> {
     private final static String CREATE_CUSTOMER = "INSERT INTO customer (name, surname, birthDate) VALUES (?, ?, ?)";
@@ -28,7 +29,7 @@ public class CustomerDao implements IDao<Customer> {
         if (customer.getBirthDate() == null) {
             statement.setDate(3, null);
         } else {
-            statement.setDate(3, Date.valueOf(customer.getBirthDate())); //todo ogarnąć ze strefą czasowąk
+            statement.setDate(3, Date.valueOf(customer.getBirthDate()), Calendar.getInstance());
         }
     }
 

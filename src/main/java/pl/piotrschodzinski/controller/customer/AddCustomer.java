@@ -28,9 +28,7 @@ public class AddCustomer extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        getServletContext().getRequestDispatcher("/add_customer.jsp").forward(request, response);
-        Customer customer = new Customer("jan", "aaaa", LocalDate.of(2019, 03, 03));
-        CustomerDao.getInstance().create(customer);
+        getServletContext().getRequestDispatcher("/add_customer.jsp").forward(request, response);
         response.sendRedirect("ShowCustomers");
     }
 }
