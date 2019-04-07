@@ -1,11 +1,22 @@
 package pl.piotrschodzinski.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import pl.piotrschodzinski.util.LocalDateDeserializer;
+import pl.piotrschodzinski.util.LocalDateSerializer;
+
 import java.time.LocalDate;
 
 public class Service {
     protected int id;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate recived;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate plannedRepairDate;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate repairDate;
     private int workerId;
     private String problemDescription;

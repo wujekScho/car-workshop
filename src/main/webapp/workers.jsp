@@ -34,14 +34,15 @@
             <td>${worker.note}</td>
             <td>${worker.ratePerHour} zł</td>
             <td><a href="DeleteWorker?id=${worker.id}">Usuń</a><a href="EditWorker?id=${worker.id}">Edytuj</a>
-                <button class="showServices" data-workerId="${worker.id}">Pokaż zlecenia</button>
+                <button class="showServices" data-workerid="${worker.id}">Pokaż zlecenia</button>
             </td>
         </tr>
     </c:forEach>
 </table>
-<a href="AddWorker">Dodaj pracownika</a>
+<a id="addWorkerBtn" href="AddWorker">Dodaj pracownika</a>
 <jsp:include page="WEB-INF/footer.jsp"/>
 </body>
-<script src="js/workerServices"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="js/workerServices.js"></script>
 </html>
 
