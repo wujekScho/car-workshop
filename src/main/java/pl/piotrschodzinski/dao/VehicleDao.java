@@ -13,6 +13,7 @@ public class VehicleDao implements IDao<Vehicle> {
     private final static String DELETE_VEHICLE = "DELETE  FROM vehicle WHERE id=?";
     private final static String GET_VEHICLE_BY_ID = "SELECT * FROM vehicle WHERE id=?";
     private final static String GET_ALL_VEHICLES = "SELECT * FROM vehicle ORDER BY id ASC";
+    private final static String GET_CUSTOMER_VEHICLES = "SELECT * FROM vehicle WHERE customerId=? ORDER BY id ASC";
 
     private static VehicleDao instance;
 
@@ -101,9 +102,25 @@ public class VehicleDao implements IDao<Vehicle> {
 
     @Override
     public ArrayList<Vehicle> readAll() {
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
         try (Connection connection = DBUtil.getConn()) {
-            ArrayList<Vehicle> vehicles = new ArrayList<>();
             PreparedStatement statement = connection.prepareStatement(GET_ALL_VEHICLES);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                vehicles.add(loadSingleVehicle(resultSet));
+            }
+            return vehicles;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Vehicle> readCustomerVehicles(int id) {
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        try (Connection connection = DBUtil.getConn()) {
+            PreparedStatement statement = connection.prepareStatement(GET_CUSTOMER_VEHICLES);
+            statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 vehicles.add(loadSingleVehicle(resultSet));

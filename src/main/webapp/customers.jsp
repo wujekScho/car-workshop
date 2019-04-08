@@ -28,6 +28,7 @@
             <td>${customer.surname}</td>
             <td>${customer.birthDate}</td>
             <td><a href="DeleteCustomer?id=${customer.id}">Usuń</a> <a href="EditCustomer?id=${customer.id}">Edytuj</a>
+                <a href="ShowCustomerVehicles?id=${customer.id}">Pojazdy</a>
             </td>
         </tr>
     </c:forEach>
