@@ -20,8 +20,8 @@ public class Service {
     public Service() {
     }
 
-    public Service(LocalDate plannedRepairDate, LocalDate repairDate, int workerId, String problemDescription, String repairDescription, ServiceStatus status, int vehicleId, double repairCost, double partsCost, double ratePerHour, int workHours) {
-        this.recived = LocalDate.now();
+    public Service(LocalDate recived, LocalDate plannedRepairDate, LocalDate repairDate, int workerId, String problemDescription, String repairDescription, ServiceStatus status, int vehicleId, double repairCost, double partsCost, double ratePerHour, int workHours) {
+        this.recived = recived;
         this.plannedRepairDate = plannedRepairDate;
         this.repairDate = repairDate;
         this.workerId = workerId;
@@ -93,6 +93,10 @@ public class Service {
 
     public ServiceStatus getStatus() {
         return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = ServiceStatus.valueOf(status);
     }
 
     public void setStatus(ServiceStatus status) {

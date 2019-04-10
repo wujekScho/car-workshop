@@ -21,7 +21,5 @@ public class ShowCurrentServices extends HttpServlet {
         ArrayList<CurrentService> currentServices = ServiceDao.getInstance().readAllCurrent(10);
         request.setAttribute("services", currentServices);
         getServletContext().getRequestDispatcher("/current_services.jsp").forward(request, response);
-
-
     }
 }

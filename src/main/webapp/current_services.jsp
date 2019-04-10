@@ -38,7 +38,17 @@
             <td>${service.vehicleModel}</td>
             <td>${service.recived}</td>
             <td>${service.problemDescription}</td>
-            <td>${service.status}</td>
+            <td>
+                <c:choose>
+                    <c:when test="${service.status == 'accepted'}">Zaakceptowano</c:when>
+                    <c:when test="${service.status == 'repairCostApproved'}">Zaakceptowano koszty naprawy</c:when>
+                    <c:when test="${service.status == 'underRepair'}">Podczas naprawy</c:when>
+                    <c:when test="${service.status == 'readyToPickup'}">Gotowy do odebrania</c:when>
+                    <c:when test="${service.status == 'completed'}">Zakończono</c:when>
+                    <c:when test="${service.status == 'cancelled'}">Rezygnacja</c:when>
+                    <c:otherwise>undefined</c:otherwise>
+                </c:choose>
+            </td>
             <td>${service.plannedRepairDate}</td>
             <td>${service.repairDate}</td>
             <td>${service.workerName} ${service.workerSurname}</td>
@@ -47,10 +57,24 @@
             <td>${service.partsCost} zł</td>
             <td>${service.ratePerHour} zł</td>
             <td>${service.workHours}</td>
-            <td></td>
+            <td>Status
+                <form action="EditService" method="get">
+                    <select name="status">
+                        <option value='accepted'>Zaakceptowano</option>
+                        <option value='repairCostApproved'>Zaakceptowano koszty naprawy</option>
+                        <option value='underRepair'>Podczas naprawy</option>
+                        <option value='readyToPickup'>Gotowy do odebrania</option>
+                        <option value='completed'>Zakończono</option>
+                        <option value='cancelled'>Rezygnacja</option>
+                    </select>
+                    <input type="hidden" name="serviceId" value="${service.id}">
+                    <button type="submit">Zmień</button>
+                </form>
+            </td>
         </tr>
     </c:forEach>
 </table>
+<a href="AddService">Dodaj zlecenie</a>
 <jsp:include page="WEB-INF/footer.jsp"/>
 </body>
 </html>

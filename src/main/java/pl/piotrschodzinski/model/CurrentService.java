@@ -12,14 +12,14 @@ public class CurrentService extends Service {
     }
 
     public CurrentService(Service service) {
-        super(service.getPlannedRepairDate(), service.getRepairDate(), service.getWorkerId(), service.getProblemDescription(),
+        super(service.getRecived(), service.getPlannedRepairDate(), service.getRepairDate(), service.getWorkerId(), service.getProblemDescription(),
                 service.getRepairDescription(), service.getStatus(), service.getVehicleId(), service.getRepairCost(),
                 service.getPartsCost(), service.getRatePerHour(), service.getWorkHours());
         this.id = service.getId();
     }
 
-    public CurrentService(LocalDate plannedRepairDate, LocalDate repairDate, int workerId, String problemDescription, String repairDescription, ServiceStatus status, int vehicleId, double repairCost, double partsCost, double ratePerHour, int workHours, String vehicleBrand, String vehicleModel, String workerName, String workerSurname) {
-        super(plannedRepairDate, repairDate, workerId, problemDescription, repairDescription, status, vehicleId, repairCost, partsCost, ratePerHour, workHours);
+    public CurrentService(LocalDate recived, LocalDate plannedRepairDate, LocalDate repairDate, int workerId, String problemDescription, String repairDescription, ServiceStatus status, int vehicleId, double repairCost, double partsCost, double ratePerHour, int workHours, String vehicleBrand, String vehicleModel, String workerName, String workerSurname) {
+        super(recived, plannedRepairDate, repairDate, workerId, problemDescription, repairDescription, status, vehicleId, repairCost, partsCost, ratePerHour, workHours);
         this.vehicleBrand = vehicleBrand;
         this.vehicleModel = vehicleModel;
         this.workerName = workerName;

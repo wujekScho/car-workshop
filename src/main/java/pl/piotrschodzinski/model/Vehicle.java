@@ -78,4 +78,17 @@ public class Vehicle {
     public void setServiceDate(LocalDate serviceDate) {
         this.serviceDate = serviceDate;
     }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "id=" + id +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", manufactureYear=" + manufactureYear +
+                ", registrationNumber='" + registrationNumber + '\'' +
+                ", serviceDate=" + serviceDate +
+                ", customerId=" + customerId +
+                '}';
+    }
 }

@@ -7,6 +7,7 @@ import pl.piotrschodzinski.util.DBUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ServiceDao implements IDao<Service> {
     private final static String CREATE_SERVICE = "INSERT INTO service (recived, plannedRepairDate, repairDate, workerId, " +
@@ -74,10 +75,26 @@ public class ServiceDao implements IDao<Service> {
     }
 
     private static void setStatementParameters(PreparedStatement statement, Service service) throws SQLException {
-        statement.setDate(1, Date.valueOf(service.getRecived()));
-        statement.setDate(2, Date.valueOf(service.getPlannedRepairDate()));
-        statement.setDate(3, Date.valueOf(service.getRepairDate()));
-        statement.setInt(4, service.getWorkerId());
+        try {
+            statement.setDate(1, Date.valueOf(service.getRecived()), Calendar.getInstance());
+        } catch (NullPointerException e) {
+            statement.setDate(1, null);
+        }
+        try {
+            statement.setDate(2, Date.valueOf(service.getPlannedRepairDate()), Calendar.getInstance());
+        } catch (NullPointerException e) {
+            statement.setDate(2, null);
+        }
+        try {
+            statement.setDate(3, Date.valueOf(service.getRepairDate()), Calendar.getInstance());
+        } catch (NullPointerException e) {
+            statement.setDate(3, null);
+        }
+        if (service.getWorkerId() == 0) {
+            statement.setNull(4, Types.INTEGER);
+        } else {
+            statement.setInt(4, service.getWorkerId());
+        }
         statement.setString(5, service.getProblemDescription());
         statement.setString(6, service.getRepairDescription());
         statement.setString(7, service.getStatus().name());
