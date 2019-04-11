@@ -24,6 +24,7 @@ public class EditService extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String status = request.getParameter("status");
         int serviceId = Integer.parseInt(request.getParameter("serviceId"));
         Service service = ServiceDao.getInstance().readById(serviceId);

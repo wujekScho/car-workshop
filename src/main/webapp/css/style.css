@@ -27,3 +27,7 @@ label {
 input {
     display: block;
 }
+
+.required {
+    color: red;
+}
