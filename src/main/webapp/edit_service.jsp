@@ -17,6 +17,8 @@
 <h2>Edycja zlecenia</h2>
 <form method="post" action="EditService">
     <input type="hidden" name="status" value="${status}">
+    <input type="hidden" name="recived" value="${service.recived}"/>
+    <input type="hidden" name="serviceId" value="${service.id}"/>
     <label>Pojazd <select class="field" name="vehicleId">
         <c:forEach items="${vehicles}" var="vehicle">
             <option value="${vehicle.id}">${vehicle.brand} ${vehicle.model} ${vehicle.registrationNumber}</option>
@@ -46,7 +48,6 @@
     <button type="submit">Edytuj zlecenie</button>
     <br>
 </form>
-<a href="AddService">Dodaj zlecenie</a>
 <jsp:include page="WEB-INF/footer.jsp"/>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

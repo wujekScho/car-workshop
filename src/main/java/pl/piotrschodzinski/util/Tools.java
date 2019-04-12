@@ -1,5 +1,7 @@
 package pl.piotrschodzinski.util;
 
+import pl.piotrschodzinski.model.Service;
+import pl.piotrschodzinski.model.ServiceStatus;
 import pl.piotrschodzinski.model.Vehicle;
 import pl.piotrschodzinski.model.Worker;
 
@@ -29,6 +31,14 @@ public class Tools {
         for (int i = 0; i < statuses.size(); i++) {
             if (statuses.get(i).equals(status)) {
                 Collections.swap(statuses, 0, i);
+            }
+        }
+    }
+
+    public static void setServiceStatus(Service service, String serviceStatus) {
+        for (ServiceStatus status : ServiceStatus.values()) {
+            if (status.toString().equals(serviceStatus)) {
+                service.setStatus(status);
             }
         }
     }

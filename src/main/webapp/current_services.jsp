@@ -47,8 +47,8 @@
             <td>${service.workHours}</td>
             <td>
                 <form action="EditService" method="get">
-                    <input name="status" type="hidden" value="${service.status}"/>
-                    <select name="status">
+                    <input name="status" id="serviceStatus" type="hidden" value="${service.status}"/>
+                    <select name="chosenStatus">
                         <option value='accepted'>Zaakceptowano</option>
                         <option value='repairCostApproved'>Zaakceptowano koszty naprawy</option>
                         <option value='underRepair'>Podczas naprawy</option>
